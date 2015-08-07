@@ -1,0 +1,81 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+.page-content {
+  text-align: center;
+  margin: 25px auto;
+}
+
+.info-card {
+  margin: 25px auto;
+}
+
+.profile-image {
+  border: 1px solid #455A64;
+}
+
+.row-anime {
+  text-align: left;
+  padding-left: 10px;
+  line-height: 40px;
+  font-size: 30px;
+  border: 1px solid black;
+}
+
+.mdl-card__supporting-text {
+  width: auto;
+}
+
+.admin-announcement {
+  width: 60%;
+  background-color: #FF9800;
+  color: #ffffff;
+  font-size: 25px;
+  padding: 5px;
+  margin: 0 auto;
+}
+
+.admin-button {
+  margin: 20px 0;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 10px 20px;
+  height: auto;
+  width: auto;
+}
+
+.admin-button-alert {
+  margin: 20px 0;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 0;
+  height: auto;
+  width: auto;
+}
+
+.admin-load-bar {
+  width: 70%;
+  margin: 40px auto 0;
+}
+
+.admin-modal {
+ text-align: center;
+}
+
+.index-modal {
+  text-align: center;
+  font-size: 25px;
+}

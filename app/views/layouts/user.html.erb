@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Flutter</title>
+	<link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.blue_grey-orange.min.css" /> 
+	<script src="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.min.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="http://code.highcharts.com/highcharts.js"></script>
+	<script src="http://code.highcharts.com/highcharts-more.js"></script>
+	<script src="http://code.highcharts.com/modules/heatmap.js"></script>
+	<script src="http://code.highcharts.com/modules/exporting.js"></script>
+	<script type="text/javascript">
+	   var show_status_array = <%= @show_status_array %>
+	   var month_count_array = <%= @month_count_array %>
+	   var rating_count_array = <%= @rating_count_array %>
+	   var year_count_array =  <%= @year_count_array %>
+	</script>
+	<%= javascript_include_tag 'user', 'data-turbolinks-track' => true %>
+	<%= stylesheet_link_tag    "user", :media => "all" %>
+
+	<%= csrf_meta_tags %>
+</head>
+<body>
+	<!-- Simple header with fixed tabs. -->
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
+	mdl-layout--fixed-tabs">
+	<header class="mdl-layout__header">
+		<div class="mdl-layout__header-row">
+			<span class="mdl-layout-title">Flutter</span>
+		</div>
+		<!-- Tabs -->
+		<div class="mdl-layout__tab-bar mdl-js-ripple-effect">
+			<a href="#fixed-tab-1" class="mdl-layout__tab is-active">General</a>
+			<a href="#fixed-tab-2" class="mdl-layout__tab">Anime List</a>
+			<a href="#fixed-tab-3" class="mdl-layout__tab">Ratings</a>
+			<a href="#fixed-tab-4" class="mdl-layout__tab">Trends</a>
+			<a href="#fixed-tab-5" class="mdl-layout__tab">History</a>
+		</div>
+	</header>
+	<main class="mdl-layout__content">
+		<section class="mdl-layout__tab-panel is-active" id="fixed-tab-1">
+			<div class="page-content">
+				<%= yield :general %>
+			</div>
+		</section>
+		<section class="mdl-layout__tab-panel" id="fixed-tab-2">
+			<div class="page-content">
+				<%= yield :animeList %>
+			</div>
+		</section>
+		<section class="mdl-layout__tab-panel" id="fixed-tab-3">
+			<div class="page-content">
+				<%= yield :ratings %>
+			</div>
+		</section>
+		<section class="mdl-layout__tab-panel" id="fixed-tab-4">
+			<div class="page-content">
+				<%= yield :trends %>
+			</div>
+		</section>
+		<section class="mdl-layout__tab-panel" id="fixed-tab-5">
+			<div class="page-content">
+				<%= yield :history %>
+			</div>
+		</section>
+	</main>
+</div>
+
+</body>
+</html>

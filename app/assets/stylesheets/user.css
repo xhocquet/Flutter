@@ -1,0 +1,34 @@
+.page-content {
+}
+
+.info-card {
+	margin: 25px auto;
+}
+
+.user-header {
+}
+
+.profile-image {
+  width: 110px;
+  height: 110px;
+  position: relative;
+  left: 25px;
+  bottom: -150px;
+}
+
+.row-anime {
+  text-align: left;
+  padding-left: 10px;
+  line-height: 40px;
+  font-size: 30px;
+	border: 1px solid black;
+}
+
+.mdl-card__supporting-text {
+	width: auto;
+}
+
+/** CHART STYLES */
+#highcharts {
+  margin: 0 auto;
+}
