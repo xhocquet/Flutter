@@ -1,0 +1,53 @@
+.page-content {
+  text-align: center;
+  margin: 25px auto;
+}
+
+.info-card {
+  margin: 25px auto;
+}
+
+.mdl-card__supporting-text {
+  width: auto;
+}
+
+.admin-announcement {
+  width: 60%;
+  background-color: #FF9800;
+  color: #ffffff;
+  font-size: 25px;
+  padding: 5px;
+  margin: 0 auto;
+}
+
+.admin-button {
+  margin: 20px 0;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 10px 20px;
+  height: auto;
+  width: auto;
+}
+
+.admin-button-alert {
+  margin: 20px 0;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 0;
+  height: auto;
+  width: auto;
+}
+
+.admin-load-bar {
+  width: 70%;
+  margin: 40px auto 0;
+}
+
+.admin-modal {
+ text-align: center;
+}
+
+.index-modal {
+  text-align: center;
+  font-size: 25px;
+}

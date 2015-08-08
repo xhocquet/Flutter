@@ -1,14 +1,3 @@
-$( document ).ready(function() {
-  //For admin page....for some reason
-  $('.admin-load-bar').hide();
-  $('.admin-button').on('click', function(e) {
-    $('.admin-button').off();
-    $('form').hide();
-    $('.admin-announcement').hide();
-    $('.admin-load-bar').show();
-  });
-
-
   //GRAPHS
   $(function () { 
     $('#show_status_barchart').highcharts({
@@ -119,39 +108,32 @@ $( document ).ready(function() {
     	chart: {
     		type: 'column'
     	},
-        xAxis: {
-            title: 'Year Aired',
-        },
-        yAxis: {
-        	title: 'Num Shows',
-        	min: 0
-        },
-        title: {
-        	text: ''
-        },
-        legend: {
-        	enabled: false
-        },
-        tooltip: {
-        	enabled: false
-        },
-        exporting: {
-        	enabled: false
-        },
-        series: [{
-            data: year_count_array,
-            color: '#FF9800',
-            dataLabels: {
-                enabled: true,
-                color: '#000000'
-            }
-        }]
+      xAxis: {
+          title: 'Year Aired',
+      },
+      yAxis: {
+      	title: 'Num Shows',
+      	min: 0
+      },
+      title: {
+      	text: ''
+      },
+      legend: {
+      	enabled: false
+      },
+      tooltip: {
+      	enabled: false
+      },
+      exporting: {
+      	enabled: false
+      },
+      series: [{
+          data: year_count_array,
+          color: '#FF9800',
+          dataLabels: {
+              enabled: true,
+              color: '#000000'
+          }
+      }]
     });
-
-
-
-
   });
-
-
-});

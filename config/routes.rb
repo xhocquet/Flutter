@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :anime_entries
 
   get '/' => 'application#index'
-  get '/:uid' => 'user#show'
+  get '/user/:uid' => 'user#show'
   get '/secret/admin/page' => 'admin#index'
   post '/secret/admin/page/anime' => 'admin#importAnime'
   post '/secret/admin/page/clearAnimeDB' => 'admin#clearAnimeDB'

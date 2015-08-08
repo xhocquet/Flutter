@@ -72,19 +72,21 @@ class UserController < ApplicationController
     #Material color scheme to use for charts
     @chart_colors = ['#F57C00','#4CAF50','#303F9F','#FF5252','#FFC107','#7C4DFF','#03A9F4','#E040FB','#FF5722','#8BC34A']
 
-    # GRAPH - Show count vs month aired
-    @month_count_hash = @cur_userList.where(:status => 'completed').group("DATE_TRUNC('month', last_date_watched)").count
-    @month_count_array = @month_count_hash.map {|i,v| [i.month,i.year, v]}.to_json
-
     # GRAPH - Show status distribution
     @completed_show_count = @cur_userList.where(:status => 'completed').count
+    @on_hold_show_count = @cur_userList.where(:status => 'on-hold').count
+    @dropped_show_count = @cur_userList.where(:status => 'dropped').count
     @watching_show_count = @cur_userList.where(:status => 'currently-watching').count
     @plan_to_show_count = @cur_userList.where(:status => 'plan-to-watch').count
-    @show_status_array = [@watching_show_count, @completed_show_count, @plan_to_show_count].to_json
+    @show_status_array = [@watching_show_count, @plan_to_show_count, @completed_show_count, @on_hold_show_count, @dropped_show_count].to_json
 
     # GRAPH - Rating distribution
     @rating_count_hash = @cur_userList.where(:status => 'completed').group(:rating).count
     @rating_count_array = @rating_count_hash.map {|i,v| [i.nil? ? (null) : (i), v]}.sort{|a,b| a<=> b}.to_json
+
+    # GRAPH - Show count vs month aired
+    @month_count_hash = @cur_userList.where(:status => 'completed').group("DATE_TRUNC('month', last_date_watched)").count
+    @month_count_array = @month_count_hash.map {|i,v| [i.month,i.year, v]}.to_json
 
     # GRAPH - Shows watched by air date line
     @year_count_hash = @user_anime.group("DATE_TRUNC('year', start_air_date)").count.delete_if{|i,v| i.nil?}
@@ -153,14 +155,6 @@ class UserController < ApplicationController
         @epCount += a['episodes_watched']
     end
     return @count,(@sum/@count).round(2),@epCount
-  end
-
-  def filterNilToNull
-    if self == nil
-      null
-    else
-      self
-    end
   end
 
 end

@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Flutter</title>
+  <title>Flutter ADMIN</title>
   <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.blue_grey-orange.min.css" /> 
   <script src="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-  <%= javascript_include_tag 'index' %>
-  <%= stylesheet_link_tag    "index", :media => "all" %>
+  <%= javascript_include_tag 'admin', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag    "admin", :media => "all" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <!-- Simple header with fixed tabs. -->
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
   mdl-layout--fixed-tabs">
   <header class="mdl-layout__header">
@@ -22,5 +23,6 @@
     <%= yield %>
   </main>
 </div>
+
 </body>
 </html>

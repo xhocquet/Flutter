@@ -4,6 +4,7 @@ class AdminController < ApplicationController
 
   def index
     @admin_message = "index"
+    render layout: "admin"
   end
 
   def importAnime
@@ -38,7 +39,7 @@ class AdminController < ApplicationController
 
     @admin_message = "Anime database updated."
 
-    render :index
+    render layout: "admin/index"
   end
 
   def importGenres
@@ -62,6 +63,10 @@ class AdminController < ApplicationController
         end
       end
     end
+
+    @admin_message = "Genres imported!"
+
+    render layout: "admin/index"
   end
 
   def clearUserDB

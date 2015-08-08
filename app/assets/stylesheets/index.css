@@ -1,0 +1,23 @@
+.page-content {
+  text-align: center;
+  margin: 25px auto;
+}
+
+.info-card {
+  margin: 25px auto;
+}
+
+.mdl-card__supporting-text {
+  width: auto;
+}
+
+.index-modal {
+  text-align: center;
+  font-size: 25px;
+}
+
+.index-username-search, .index-search-label {
+  font-size: 30px;
+  line-height: 30px;
+  text-align: center;
+}
