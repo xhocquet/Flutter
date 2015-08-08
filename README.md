@@ -8,8 +8,6 @@ Once your DB connects, run `db:migrate` to create the tables, `db:seed` will fil
 Then, run `rails s` and you should be able to connect on `localhost:3000` in the browser.
 
 ###Status (8/8/2015)
-I haven't gotten around to making the input for the user to actually go to his page. I've been going to `home_url/meesles` to test stuff. 
-
 `secret/admin/page` is a temp utility URL for clearing databases. To get genres working to hack on, you need to click the Import Genres button, which will check all the shows for their genres and link them up properly. This needs to be also saved in the DB seeding at some point.
 
 I'm currently continuing on the graphs for the user page and I'll be hopping around depending on what I'm feeling!
