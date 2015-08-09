@@ -84,13 +84,18 @@ class UserController < ApplicationController
     @rating_count_hash = @cur_userList.where(:status => 'completed').group(:rating).count
     @rating_count_array = @rating_count_hash.map {|i,v| [i.nil? ? (null) : (i), v]}.sort{|a,b| a<=> b}.to_json
 
-    # GRAPH - Show count vs month aired
+    # GRAPH - Show count vs day completed heatmap
     @month_count_hash = @cur_userList.where(:status => 'completed').group("DATE_TRUNC('month', last_date_watched)").count
     @month_count_array = @month_count_hash.map {|i,v| [i.month,i.year, v]}.to_json
 
     # GRAPH - Shows watched by air date line
     @year_count_hash = @user_anime.group("DATE_TRUNC('year', start_air_date)").count.delete_if{|i,v| i.nil?}
     @year_count_array = @year_count_hash.map {|i,v| [i.year, v]}.sort{|a,b| a<=> b}.to_json
+
+    # GRAPH - Shows pie chart of different types (OVA, TV, etc)
+    @anime_type_hash = @user_anime.group(:show_type).count
+    @anime_type_array = @anime_type_hash.map {|i, v| {'name' => i, 'y' => v}}.to_json
+    puts @anime_type_array
 
       
     # TRENDS ===============

@@ -2,26 +2,26 @@
 }
 
 .info-card {
-	margin: 25px auto;
+  margin: 25px auto;
 }
 
 .user-header {
 }
 
 .profile-image {
-  width: 110px;
-  height: 110px;
-  position: relative;
-  left: 25px;
   bottom: -150px;
+  height: 110px;
+  left: 25px;
+  position: relative;
+  width: 110px;
 }
 
 .row-anime {
-  text-align: left;
-  padding-left: 10px;
-  line-height: 40px;
+  border: 1px solid black;
   font-size: 30px;
-	border: 1px solid black;
+  line-height: 40px;
+  padding-left: 10px;
+  text-align: left;
 }
 
 .mdl-card__supporting-text {
