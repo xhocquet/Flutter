@@ -65,12 +65,21 @@ class UserController < ApplicationController
 
     @timeString = totalTimeString(@cur_user.time_spent_on_anime)
     @dashboardURL,@libraryURL = getProfileURLs(@cur_user['name'])
-    @numEntries = @cur_user.number_of_entries
+    
     @meanScore = @cur_user.mean_rating
-    @episodesWatched = @cur_user.number_of_episodes
 
     #Material color scheme to use for charts
     @chart_colors = ['#F57C00','#4CAF50','#303F9F','#FF5252','#FFC107','#7C4DFF','#03A9F4','#E040FB','#FF5722','#8BC34A']
+
+    # ======== GENERAL ========#
+    @db_show_count = Anime.count
+    @user_show_count = @cur_userList.count
+
+    @db_episode_count = Anime.all.sum(:episode_count)
+    @user_episode_count = @cur_user.number_of_episodes
+
+
+    # ======== TRENDS =========#
 
     # GRAPH - Show status distribution
     @completed_show_count = @cur_userList.where(:status => 'completed').count
@@ -82,7 +91,7 @@ class UserController < ApplicationController
 
     # GRAPH - Rating distribution
     @rating_count_hash = @cur_userList.where(:status => 'completed').group(:rating).count
-    @rating_count_array = @rating_count_hash.map {|i,v| [i.nil? ? (null) : (i), v]}.sort{|a,b| a<=> b}.to_json
+    @rating_count_array = @rating_count_hash.map {|i,v| [i.nil? ? 0  : (i), v]}.sort{|a,b| a<=> b}.to_json
 
     # GRAPH - Show count vs day completed heatmap
     @month_count_hash = @cur_userList.where(:status => 'completed').group("DATE_TRUNC('month', last_date_watched)").count
@@ -95,11 +104,13 @@ class UserController < ApplicationController
     # GRAPH - Shows pie chart of different types (OVA, TV, etc)
     @anime_type_hash = @user_anime.group(:show_type).count
     @anime_type_array = @anime_type_hash.map {|i, v| {'name' => i, 'y' => v}}.to_json
-    puts @anime_type_array
 
-      
-    # TRENDS ===============
-    
+    # GRAPH - Mean score by year line
+    @score_year_hash = @cur_userList.where.not(rating: nil).group_by{|le| le.anime.start_air_date.year}
+    @score_year_array = @score_year_hash.map{|year,shows| [year, (shows.sum{|s| s.rating}/shows.count).round(3)]}.sort{|a,b| a<=> b}.to_json
+
+    # GRAPH - Mean score by genre
+    #@score_genre_hash = @cur_userList.where.not(rating: nil).group_by{|le| le.anime.genres.name}
 
     # DATA/STATS TO GET
     # Main User Tab
@@ -118,9 +129,6 @@ class UserController < ApplicationController
     # =>    # separate titles in time period, total episodes last month, total time
     # => Completion by month - Rectangle darkness grid for year-month - meh
     # Trends
-    # => Favorite time periods - Graph mean score by by years/decades @userList[0].anime.started_airing
-    # => Favorite types - Pie chart @userlist[0].anime.show_type
-    # => Airing vs Completed vs not yet
     # => Favorite genres @userList[0].anime.genres[]
     # => Favorite age ratings @userlist[0].anime.age_rating
     # => Favorite lengths?

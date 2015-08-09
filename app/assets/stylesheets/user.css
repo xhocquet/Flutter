@@ -5,7 +5,11 @@
   margin: 25px auto;
 }
 
-.user-header {
+.general-small-gauge {
+  width: 50%;
+  padding: 0;
+  float: left;
+  text-align: center;
 }
 
 .profile-image {

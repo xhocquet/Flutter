@@ -9,12 +9,21 @@
         </div>
       </div>
       <div class="mdl-card__supporting-text">
+        <div class="mdl-card__title mdl-card--border">
+          <h2 class="mdl-card__title-text">Summary</h2>
+        </div>
         <span class="user-timeString"><%= @timeString %></span>
         <a href=<%= @dashboardURL %>>Profile</a>
         <a href=<%= @libraryURL %>>Library</a>
         Mean Score: <%= @meanScore %>
-        Total Titles Watched: <%= @numEntries %>
-        Total Episodes Watched: <%= @episodesWatched %>
+        <div class="general-small-gauge">
+          <h4># of All Titles Watched</h2>
+          <div id="total-titles-gauge"></div>
+        </div>
+        <div class="general-small-gauge">
+          <h4># of All Episodes Watched</h2>
+          <div id="total-episodes-gauge"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -75,6 +84,10 @@
           <h2 class="mdl-card__title-text">Types of Anime Watched</h2>
         </div>
         <div id="show_type_pie"></div>
+        <div class="mdl-card__title mdl-card--border">
+          <h2 class="mdl-card__title-text">Mean Rating by Year</h2>
+        </div>
+        <div id="year_rating_line"></div>
       </div>
     </div>
   </section>
