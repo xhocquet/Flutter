@@ -4,62 +4,11 @@ class UserController < ApplicationController
 
     layout "user"
 
-  def show
+  def general
     # Check if we already have info for this user
-    @doesUserExist = User.exists?(:name => params[:uid])
+    generateInfo(params[:username]) unless User.exists?(:name => params[:username])
 
-    @cur_userList
-    @cur_user
-    @cur_animeLibrary
-
-    if(!@doesUserExist) # User does not exist. Fetch his data via api, parse, and save
-      @url_library = URI.encode("http://hummingbird.me/api/v1/users/"+params[:uid]+"/library")
-      @url_profile = URI.encode("http://hummingbird.me/api/v1/users/"+params[:uid])
-      
-      @library_response = HTTParty.get(@url_library)
-      @profile_response = HTTParty.get(@url_profile)
-
-      @library_body = @library_response.body
-      @profile_body = @profile_response.body
-      
-      @cur_userList = JSON.parse(@library_body)
-      @cur_user = JSON.parse(@profile_body)
-      
-      new_user = User.new
-      new_user.name = @cur_user['name']
-      new_user.avatar = @cur_user['avatar']
-      new_user.time_spent_on_anime = @cur_user['life_spent_on_anime']
-      new_user.cover_image = @cur_user['cover_image']
-      new_user.last_date_updated = DateTime.strptime(@cur_user['last_library_update'],'%Y-%m-%dT%H:%M:%S')
-      new_user.number_of_entries,new_user.mean_rating,new_user.number_of_episodes = getMeanScore(@cur_userList)
-      new_user.save
-
-      # Generate each list item from JSON
-      @cur_userList.each do |index, value|
-        new_library_entry = LibraryEntry.new
-        new_library_entry.title = index['anime']['title']
-        new_library_entry.slug = index['anime']['slug']
-        new_library_entry.last_date_watched = DateTime.strptime(index['last_watched'],'%Y-%m-%dT%H:%M:%S')
-        new_library_entry.episodes_watched = index['episodes_watched']
-        new_library_entry.times_rewatched = index['rewatched_times']
-        new_library_entry.status = index['status']
-        new_library_entry.rating = index['rating']['value']
-        new_library_entry.name = new_user.name
-        new_library_entry.save
-
-        # Find this anime, plug it into users animes and library entry
-        cur_entry_anime = Anime.where(:slug => new_library_entry  .slug).first()
-        new_library_entry.anime = cur_entry_anime
-
-        new_library_entry.save
-
-        # Plug new library entry into anime and user
-        cur_entry_anime.library_entries << new_library_entry
-        new_user.library_entries << new_library_entry
-      end
-    end
-
-    @cur_user = User.find_by_name(params[:uid])
+    @cur_user = User.find_by_name(params[:username])
     @cur_userList = @cur_user.library_entries
     @user_anime = @cur_user.animes
 
@@ -68,18 +17,41 @@ class UserController < ApplicationController
     
     @meanScore = @cur_user.mean_rating
 
-    #Material color scheme to use for charts
-    @chart_colors = ['#F57C00','#4CAF50','#303F9F','#FF5252','#FFC107','#7C4DFF','#03A9F4','#E040FB','#FF5722','#8BC34A']
-
-    # ======== GENERAL ========#
     @db_show_count = Anime.count
     @user_show_count = @cur_userList.count
 
     @db_episode_count = Anime.all.sum(:episode_count)
     @user_episode_count = @cur_user.number_of_episodes
 
+    render :general
+  end
 
-    # ======== TRENDS =========#
+  def library
+    @cur_user = User.find_by_name(params[:username])
+    @cur_userList = @cur_user.library_entries
+    @user_anime = @cur_user.animes
+  end
+
+  def ratings
+    @cur_user = User.find_by_name(params[:username])
+    @cur_userList = @cur_user.library_entries
+    @user_anime = @cur_user.animes
+
+  end
+
+  def history
+    @cur_user = User.find_by_name(params[:username])
+    @cur_userList = @cur_user.library_entries
+    @user_anime = @cur_user.animes
+
+  end
+
+  def trends
+    @cur_user = User.find_by_name(params[:username])
+    @cur_userList = @cur_user.library_entries
+    @user_anime = @cur_user.animes
+
+    @chart_colors = ['#F57C00','#4CAF50','#303F9F','#FF5252','#FFC107','#7C4DFF','#03A9F4','#E040FB','#FF5722','#8BC34A']
 
     # GRAPH - Show status distribution
     @completed_show_count = @cur_userList.where(:status => 'completed').count
@@ -106,39 +78,76 @@ class UserController < ApplicationController
     @anime_type_array = @anime_type_hash.map {|i, v| {'name' => i, 'y' => v}}.to_json
 
     # GRAPH - Mean score by year line
-    @score_year_hash = @cur_userList.where.not(rating: nil).group_by{|le| le.anime.start_air_date.year}
+    @score_year_hash = @cur_userList.where("rating IS NOT NULL AND status = 'completed'").group_by{|le| le.anime.start_air_date.year}
     @score_year_array = @score_year_hash.map{|year,shows| [year, (shows.sum{|s| s.rating}/shows.count).round(3)]}.sort{|a,b| a<=> b}.to_json
 
     # GRAPH - Mean score by genre
     #@score_genre_hash = @cur_userList.where.not(rating: nil).group_by{|le| le.anime.genres.name}
 
-    # DATA/STATS TO GET
-    # Main User Tab
-    # => Favorite with links @user.favorites[x]
-    # Anime List
-    # => Completion @userList[0].status
-    # => Score @userList[0].rating.value
-    # => Community rating @userlist[0].anime.community_rating
-    # Ratings
-    # => Rating Distribution - Count by rating, map counts to rating
-    # => Ratings vs Time Spent - Sum time by rating, map summed time to rating
-    # => Rating vs Episode Count - Bar graph # title within episode count ranges. Then 
-    # =>    line graph over it for mean rating per range
-    # History
-    # => Recent - Plot last month or so with # episodes or time per day. see if you can get weekdays in. 
-    # =>    # separate titles in time period, total episodes last month, total time
-    # => Completion by month - Rectangle darkness grid for year-month - meh
-    # Trends
-    # => Favorite genres @userList[0].anime.genres[]
-    # => Favorite age ratings @userlist[0].anime.age_rating
-    # => Favorite lengths?
-
-
-    render layout: "user"
   end
 
-  def getListSave
+  def refreshData
+    @doesUserExist = User.exists?(:name => params[:username])
+    
+    if @doesUserExist
+      LibraryEntry.destroy_all(name: params[:username])
+      User.find_by_name(params[:username]).destroy
+    end
 
+    redirect_to :action => "show", :username=> params[:username]
+  end
+
+  def generateInfo(userName)
+    @doesUserExist = User.exists?(:name => userName)
+
+    @cur_userList
+    @cur_user
+
+    if(!@doesUserExist) # User does not exist. Fetch his data via api, parse, and save
+      @url_library = URI.encode("http://hummingbird.me/api/v1/users/"+userName+"/library")
+      @url_profile = URI.encode("http://hummingbird.me/api/v1/users/"+userName)
+      
+      @library_response = HTTParty.get(@url_library)
+      @profile_response = HTTParty.get(@url_profile)
+
+      @library_body = @library_response.body
+      @profile_body = @profile_response.body
+      
+      @cur_userList = JSON.parse(@library_body)
+      @cur_user = JSON.parse(@profile_body)
+      
+      new_user = User.new
+      new_user.name = @cur_user['name']
+      new_user.avatar = @cur_user['avatar']
+      new_user.time_spent_on_anime = @cur_user['life_spent_on_anime']
+      new_user.cover_image = @cur_user['cover_image']
+      new_user.last_date_updated = DateTime.strptime(@cur_user['last_library_update'],'%Y-%m-%dT%H:%M:%S')
+      new_user.number_of_entries,new_user.mean_rating,new_user.number_of_episodes = getMeanScore(@cur_userList)
+      new_user.save
+
+      # Generate each list item from JSON
+      @cur_userList.each do |index, value|
+        new_library_entry = LibraryEntry.new
+        new_library_entry.title = index['anime']['title']
+        new_library_entry.last_date_watched = DateTime.strptime(index['last_watched'],'%Y-%m-%dT%H:%M:%S')
+        new_library_entry.episodes_watched = index['episodes_watched']
+        new_library_entry.times_rewatched = index['rewatched_times']
+        new_library_entry.status = index['status']
+        new_library_entry.rating = index['rating']['value']
+        new_library_entry.hm_id = index['anime']['id']
+        new_library_entry.name = new_user.name
+
+        # Find this anime, plug it into users animes and library entry
+        cur_entry_anime = Anime.where(:hm_id => index['anime']['id']).first
+        new_library_entry.anime = cur_entry_anime
+
+        new_library_entry.save
+
+        # Plug new library entry into anime and user
+        cur_entry_anime.library_entries << new_library_entry
+        new_user.library_entries << new_library_entry
+      end
+    end
   end
 
   def totalTimeString(minutes)

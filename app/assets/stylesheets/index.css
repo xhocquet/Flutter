@@ -1,23 +1,52 @@
-.page-content {
+body {
+  background-color: rgb(51, 51, 51);
+}
+
+.outer_extreme {
+  display: table;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.outer {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.info_card {
+  border-radius: 4px;
+  margin: auto;
+  padding: 10px;
   text-align: center;
-  margin: 25px auto;
+  width: 40%;
 }
 
-.info-card {
-  margin: 25px auto;
+.logo_container {
+  background: none;
+  margin: auto;
 }
 
-.mdl-card__supporting-text {
-  width: auto;
+.logo {
+  height: 200px;
 }
 
-.index-modal {
+.username_search_label {
+  border: 0;
+  font-family: sans-serif;
+  font-size: 40px;
+  margin: 0;
+  padding: 0;
+  width: 29%;
+}
+
+.username_search_field {
+  font-size: 40px;
+  padding: 10px;
   text-align: center;
-  font-size: 25px;
+  width: 100%;
 }
 
-.index-username-search, .index-search-label {
-  font-size: 30px;
-  line-height: 30px;
-  text-align: center;
+.username_search_field:focus {
+  outline: none;
 }

@@ -17,11 +17,11 @@ class CreateUsers < ActiveRecord::Migration
       t.date :last_date_watched
       t.float :rating
       t.integer :episodes_watched
+      t.integer :hm_id
       t.integer :times_rewatched
       t.string :status
       t.string :title
       t.string :name
-      t.string :slug
 
       t.belongs_to :anime, index: true
       t.belongs_to :user, index: true

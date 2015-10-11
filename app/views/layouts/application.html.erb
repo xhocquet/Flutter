@@ -2,25 +2,16 @@
 <html>
 <head>
   <title>Flutter</title>
-  <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.blue_grey-orange.min.css" /> 
-  <script src="https://storage.googleapis.com/code.getmdl.io/1.0.1/material.min.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <%= javascript_include_tag 'jquery-2-1-4' %>
   <%= javascript_include_tag 'index' %>
-  <%= stylesheet_link_tag    "index", :media => "all" %>
+  <%= stylesheet_link_tag "index", :media => "all" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header
-  mdl-layout--fixed-tabs">
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
-      <span class="mdl-layout-title">Flutter</span>
+  <div class="outer_extreme">
+    <div class="outer">
+      <%= yield %>
     </div>
-  </header>
-  <main class="mdl-layout__content">
-    <%= yield %>
-  </main>
-</div>
+  </div>
 </body>
 </html>

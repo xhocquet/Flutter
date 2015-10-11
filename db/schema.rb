@@ -51,11 +51,11 @@ ActiveRecord::Schema.define(version: 20150804011622) do
     t.date     "last_date_watched"
     t.float    "rating"
     t.integer  "episodes_watched"
+    t.integer  "hm_id"
     t.integer  "times_rewatched"
     t.string   "status"
     t.string   "title"
     t.string   "name"
-    t.string   "slug"
     t.integer  "anime_id"
     t.integer  "user_id"
     t.datetime "created_at",        null: false

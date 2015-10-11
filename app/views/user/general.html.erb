@@ -1,0 +1,28 @@
+<h2><%= @cur_user.name %></h2>
+<span><%= @timeString %></span>
+<a href=<%= @dashboardURL %>>Profile</a>
+<a href=<%= @libraryURL %>>Library</a>
+Mean Score: <%= @meanScore %>
+<div class="general_small_gauge">
+  <h4># of All Titles Watched</h2>
+  <div id="total_titles_gauge"></div>
+</div>
+<div class="general_small_gauge">
+  <h4># of All Episodes Watched</h2>
+  <div id="total_episodes_gauge"></div>
+</div>
+
+<%= link_to "Refresh Data" , {controller: "user",  action: "refreshData"} %>
+<script type="text/javascript">
+    var db_show_count = <%= @db_show_count %>
+    var user_show_count = <%= @user_show_count %>
+    var db_episode_count = <%= @db_episode_count %>  
+    var user_episode_count = <%= @user_episode_count %>      
+  </script>
+  <%= javascript_include_tag 'highcharts/highcharts' %>
+  <%= javascript_include_tag 'highcharts/highcharts-more' %>
+  <%= javascript_include_tag 'highcharts/solid-gauge' %>
+  <%= javascript_include_tag 'user/general' %>
+   
+# Main User Tab
+# => Favorite with links @user.favorites[x]

@@ -6,4 +6,4 @@ development:
   port: 5432
   pool: 5
   username: xhocquet
-  password: xhocquet
+  password: 

@@ -1,0 +1,10 @@
+<% @cur_userList.each_with_index do |listItem, index| %>
+  <div class="row row-anime anime-<%=index%>" >
+    <div class="col s12"><%= listItem.title %></div>
+  </div>
+<% end %>
+
+    # Anime List
+    # => Completion @userList[0].status
+    # => Score @userList[0].rating.value
+    # => Community rating @userlist[0].anime.community_rating
