@@ -20,13 +20,13 @@
   </div>
 
   <ul class="list">
-    <% @cur_userList.each_with_index do |listItem, index| %>
+    <% @cur_user_list.each_with_index do |list_item, index| %>
       <li>
-        <a href="https://hummingbird.me/anime/<%=listItem.hm_id %>"><div class="title list_item"><%= listItem.title %></div></a>
+        <a href="https://hummingbird.me/anime/<%=list_item.hm_id %>"><div class="title list_item"><%= list_item.title %></div></a>
         <div class="inner_list_container">
-          <div class="status list_item"><%= listItem.status.capitalize %></div>
-          <div class="rating list_item"><%= listItem.rating %></div>
-          <div class="community_rating list_item"><%= listItem.anime.community_rating.round(1) %></div>
+          <div class="status list_item"><%= list_item.status.capitalize %></div>
+          <div class="rating list_item"><%= list_item.rating %></div>
+          <div class="community_rating list_item"><%= list_item.anime.community_rating.round(1) %></div>
         </div>
       </li>
     <% end %>

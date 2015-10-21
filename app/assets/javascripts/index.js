@@ -4,6 +4,7 @@ $( document ).ready(function() {
         e.preventDefault();
         var username = $('.username_search_field').val();
         $('.username_search_field').hide();
+        $('.error').hide();
         window.location.href = '../user/general/' + username;
       }
   })

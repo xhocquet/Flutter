@@ -1,5 +1,8 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
+
 body {
   background-color: rgb(51, 51, 51);
+  font-family: 'Open Sans', sans-serif;
 }
 
 .outer_extreme {
@@ -23,13 +26,15 @@ body {
   width: 40%;
 }
 
-.logo_container {
-  background: none;
-  margin: auto;
-}
-
 .logo {
   height: 200px;
+}
+
+.error {
+  border-radius: 4px;
+color: rgb(204, 41, 0);
+  margin: 0 auto 10px;
+  width: 50%;
 }
 
 .username_search_field {

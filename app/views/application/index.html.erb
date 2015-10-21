@@ -1,4 +1,9 @@
-<div class="info_card logo_container">
-  <img class="logo" src="/assets/flutterlogo.png" alt="flutter" />
+<div class="info_card">
+  <%= link_to root_path do %>
+    <img class="logo" src="/assets/flutterlogo.png" alt="flutter" />
+  <% end %>
+  <% if params[:err] == "1" %>
+    <div class="error">User could not be found.</div>
+  <% end %>
   <input class="username_search_field" type="text" id="username_search_field" placeholder="Username" onfocus="this.placeholder = ''" />
 </div>

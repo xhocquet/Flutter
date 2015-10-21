@@ -4,7 +4,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   layout "application"
 
+  #Can receive an :err param. 1 = User could not be found @ HB
   def index
-  	render layout: "application"
+    render layout: "application"
   end
 end

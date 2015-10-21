@@ -10,7 +10,11 @@
   <body>
     <div class="outer_extreme">
       <div class="outer">
-        <div class="info_card logo_container"><img class="logo" src="/assets/flutterlogo.png" alt="flutter" /></div>
+        <div class="logo_container">
+          <%= link_to root_path do %>
+            <img class="logo" src="/assets/flutterlogo.png" alt="flutter" />
+          <% end %>
+        </div>
           <div class="main_modal" id="tabs">
             <div id='cssmenu'>
               <ul>
