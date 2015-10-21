@@ -2,8 +2,7 @@
 <html>
 <head>
   <title>Flutter</title>
-  <%= javascript_include_tag 'jquery-2-1-4' %>
-  <%= javascript_include_tag 'index' %>
+  <%= javascript_include_tag 'jquery' %>
   <%= stylesheet_link_tag "index", :media => "all" %>
   <%= csrf_meta_tags %>
 </head>
@@ -13,5 +12,6 @@
       <%= yield %>
     </div>
   </div>
+  <%= javascript_include_tag 'index' %>
 </body>
 </html>

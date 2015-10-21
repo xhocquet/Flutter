@@ -1,10 +1,38 @@
-<% @cur_userList.each_with_index do |listItem, index| %>
-  <div class="row row-anime anime-<%=index%>" >
-    <div class="col s12"><%= listItem.title %></div>
-  </div>
-<% end %>
+<%= stylesheet_link_tag 'user/library' %>
 
-    # Anime List
-    # => Completion @userList[0].status
-    # => Score @userList[0].rating.value
-    # => Community rating @userlist[0].anime.community_rating
+<div id="list_container">
+  <input class="search" placeholder="Search" />
+  <div class="filter_container">
+    <button class="title_button sort" data-sort="title">
+      Title
+    </button>
+    <div class="inner_filter_container">
+      <button class="status_button sort" data-sort="status">
+        Status
+      </button>
+      <button class="rating_button sort" data-sort="rating">
+        Rating
+      </button>
+      <button class="community_rating_button sort" data-sort="community_rating">
+        Public Rating
+      </button>
+    </div>
+  </div>
+
+  <ul class="list">
+    <% @cur_userList.each_with_index do |listItem, index| %>
+      <li>
+        <a href="https://hummingbird.me/anime/<%=listItem.hm_id %>"><div class="title list_item"><%= listItem.title %></div></a>
+        <div class="inner_list_container">
+          <div class="status list_item"><%= listItem.status.capitalize %></div>
+          <div class="rating list_item"><%= listItem.rating %></div>
+          <div class="community_rating list_item"><%= listItem.anime.community_rating.round(1) %></div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+
+</div>
+
+<%= javascript_include_tag 'listjs' %>
+<%= javascript_include_tag 'user/library' %>

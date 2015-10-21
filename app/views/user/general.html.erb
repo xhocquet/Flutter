@@ -1,28 +1,32 @@
-<h2><%= @cur_user.name %></h2>
-<span><%= @timeString %></span>
-<a href=<%= @dashboardURL %>>Profile</a>
-<a href=<%= @libraryURL %>>Library</a>
-Mean Score: <%= @meanScore %>
-<div class="general_small_gauge">
-  <h4># of All Titles Watched</h2>
-  <div id="total_titles_gauge"></div>
-</div>
-<div class="general_small_gauge">
-  <h4># of All Episodes Watched</h2>
-  <div id="total_episodes_gauge"></div>
+<%= stylesheet_link_tag 'user/general' %>
+
+<div class="name-container">
+  <div class="profile_link"><a class="link" href=<%= @cur_user.hm_dash_url %>>Profile</a></div>
+  <h2 class="name"><%= @cur_user.name.capitalize %></h2>
+  <div class="library_link"><a class="link" href=<%= @cur_user.hm_library_url %>>Library</a></div>
 </div>
 
-<%= link_to "Refresh Data" , {controller: "user",  action: "refreshData"} %>
+<div class="cover_image" style="background: url(<%= @cur_user.cover_image %>) no-repeat; background-size: cover;" >
+  <img class="avatar" src="<%= @cur_user.avatar %>" />
+</div>
+
+<div class="time_container">
+  <span><%= @timeString %></span>
+</div>
+
+
+<div class="refresh_container">
+  <%= link_to "Refresh Data" , {controller: "user",  action: "refreshData"}, class: "refresh_link" %>
+</div>
+
 <script type="text/javascript">
     var db_show_count = <%= @db_show_count %>
     var user_show_count = <%= @user_show_count %>
     var db_episode_count = <%= @db_episode_count %>  
     var user_episode_count = <%= @user_episode_count %>      
   </script>
-  <%= javascript_include_tag 'highcharts/highcharts' %>
-  <%= javascript_include_tag 'highcharts/highcharts-more' %>
-  <%= javascript_include_tag 'highcharts/solid-gauge' %>
   <%= javascript_include_tag 'user/general' %>
    
-# Main User Tab
-# => Favorite with links @user.favorites[x]
+<!-- # Main User Tab
+# => Favorite with links @user.favorites[x] --!>
+#mean score

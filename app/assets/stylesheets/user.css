@@ -1,5 +1,8 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
+
 body {
   background-color: rgb(51, 51, 51);
+  font-family: 'Open Sans', sans-serif;
 }
 
 .outer_extreme {
@@ -24,49 +27,47 @@ body {
 }
 
 .main_modal {
-  text-align: left;
   background-color: #E6E6E6;
   border-radius: 4px;
-  margin: auto;
+  margin: 0 auto 50px;
   padding: 5px;
-  width: 70%;
+  text-align: left;
+  width: 60%;
 }
 
 .content {
-  padding: 5px;
+  padding: 5px 0 0;
 }
-
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
 
 #cssmenu {
   background: #E37919;
-  width: auto;
   border-radius: 4px;
   text-align: center;
+  width: auto;
 }
 
 #cssmenu ul {
+  display: block;
+  line-height: 1;
   list-style: none;
   margin: 0;
   padding: 0;
-  line-height: 1;
-  display: block;
   zoom: 1;
 }
 
 #cssmenu ul:after {
+  clear: both;
   content: " ";
   display: block;
   font-size: 0;
   height: 0;
-  clear: both;
   visibility: hidden;
 }
 
 #cssmenu ul li {
   display: inline-block;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 #cssmenu.align-right ul li {
@@ -79,14 +80,14 @@ body {
 
 #cssmenu ul li a {
   color: #ffffff;
-  text-decoration: none;
   display: block;
-  padding: 15px 25px;
   font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
-  text-transform: uppercase;
   font-size: 14px;
+  font-weight: 700;
+  padding: 15px 25px;
   position: relative;
+  text-decoration: none;
+  text-transform: uppercase;
   -webkit-transition: color .25s;
   -moz-transition: color .25s;
   -ms-transition: color .25s;
@@ -103,26 +104,26 @@ body {
 }
 
 #cssmenu ul li a:after {
+  background: #ffffff;
   content: "";
   display: block;
+  height: 6px;
+  opacity: .5;
   position: absolute;
   right: -3px;
   top: 19px;
-  height: 6px;
   width: 6px;
-  background: #ffffff;
-  opacity: .5;
 }
 
 #cssmenu ul li a:before {
+  background: #333333;
+  bottom: 0;
   content: "";
   display: block;
-  position: absolute;
-  left: 0;
-  bottom: 0;
   height: 3px;
+  left: 0;
+  position: absolute;
   width: 0;
-  background: #333333;
   -webkit-transition: width .25s;
   -moz-transition: width .25s;
   -ms-transition: width .25s;
@@ -175,5 +176,3 @@ body {
     display: none;
   }
 }
-
-/* =========================== Content =========================== */

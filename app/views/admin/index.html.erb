@@ -1,6 +1,4 @@
-<section class="mdl-grid">
-  <div class="info-card mdl-card mdl-cell mdl-cell--6-col-desktop mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--3dp">
-    <div class="admin-modal mdl-card__supporting-text">
+
       <h2>Admin Tools</h2>
       <div class="admin-load-bar mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
       <% if @admin_message != 'index' %>
@@ -11,20 +9,12 @@
       <br>
       
 
-      <%= button_to "Clear User DB", {:action => "clearUserDB"}, {class: 'admin-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'} %>
+      <%= button_to "Clear User DB", {:action => "clearUserDB"} %>
 
-      <%= button_to "Clear entries DB", {:action => "clearEntryDB"}, {class: 'admin-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'} %>
+      <%= button_to "Clear entries DB", {:action => "clearEntryDB"} %>
 
+      <%= button_to "Add Genres to Anime", {:action => "importGenres"} %>
 
-      <%= button_to "Add Genres to Anime", {:action => "importGenres"}, {class: 'admin-button mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'} %>
+      <%= button_to "Import anime 1-10000", {:action => "importAnime"} %>
 
-
-
-
-
-      <%= button_to "Import anime 1-10000", {:action => "importAnime"}, {class: 'admin-button-alert mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'} %>
-
-      <%= button_to "Clear anime DB", {:action => "clearAnimeDB"}, {class: 'admin-button-alert mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent'} %>
-    </div>
-  </div>
-</section>
+      <%= button_to "Clear anime DB", {:action => "clearAnimeDB"} %>

@@ -2,7 +2,7 @@ require 'json'
 
 class UserController < ApplicationController
 
-    layout "user"
+  layout "user"
 
   def general
     # Check if we already have info for this user
@@ -13,7 +13,6 @@ class UserController < ApplicationController
     @user_anime = @cur_user.animes
 
     @timeString = totalTimeString(@cur_user.time_spent_on_anime)
-    @dashboardURL,@libraryURL = getProfileURLs(@cur_user['name'])
     
     @meanScore = @cur_user.mean_rating
 
@@ -118,6 +117,8 @@ class UserController < ApplicationController
       
       new_user = User.new
       new_user.name = @cur_user['name']
+      new_user.hm_library_url = "https://hummingbird.me/users/"+ @cur_user['name'] + "/library"
+      new_user.hm_dash_url = "https://hummingbird.me/users/"+ @cur_user['name']
       new_user.avatar = @cur_user['avatar']
       new_user.time_spent_on_anime = @cur_user['life_spent_on_anime']
       new_user.cover_image = @cur_user['cover_image']
@@ -153,17 +154,10 @@ class UserController < ApplicationController
   def totalTimeString(minutes)
     hh, mm = minutes.divmod(60)
     dd, hh = hh.divmod(24)
-    mn, dd = dd.divmod(30)
+    mn, dd = dd.divmod(31)
     yr, mn = mn.divmod(12)
 
     "You've watched %d years, %d months. %d days, %d hours, and %d minutes of anime." % [yr, mn, dd, hh, mm]
-  end
-
-  def getProfileURLs(userName)
-    @profile = "https://hummingbird.me/users/"+userName
-    @library = @profile+"/library"
-
-    return @profile,@library
   end
 
   def getMeanScore(animeList)

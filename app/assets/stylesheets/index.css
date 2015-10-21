@@ -12,6 +12,7 @@ body {
 .outer {
     display: table-cell;
     vertical-align: middle;
+    text-align: center;
 }
 
 .info_card {
@@ -31,20 +32,10 @@ body {
   height: 200px;
 }
 
-.username_search_label {
-  border: 0;
-  font-family: sans-serif;
-  font-size: 40px;
-  margin: 0;
-  padding: 0;
-  width: 29%;
-}
-
 .username_search_field {
   font-size: 40px;
   padding: 10px;
   text-align: center;
-  width: 100%;
 }
 
 .username_search_field:focus {
