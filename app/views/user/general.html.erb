@@ -11,22 +11,22 @@
 </div>
 
 <div class="time_container">
-  <span><%= @timeString %></span>
+  <span><%= @cur_user.time_string %></span>
 </div>
-
 
 <div class="refresh_container">
   <%= link_to "Refresh Data" , {controller: "user",  action: "refreshData"}, class: "refresh_link" %>
 </div>
 
 <script type="text/javascript">
-    var db_show_count = <%= @db_show_count %>
-    var user_show_count = <%= @user_show_count %>
-    var db_episode_count = <%= @db_episode_count %>  
-    var user_episode_count = <%= @user_episode_count %>      
-  </script>
+  var db_show_count = <%= @db_show_count %>
+  var user_show_count = <%= @user_show_count %>
+  var db_episode_count = <%= @db_episode_count %>
+  var user_episode_count = <%= @user_episode_count %>
+</script>
   <%= javascript_include_tag 'user/general' %>
    
 <!-- # Main User Tab
-# => Favorite with links @user.favorites[x] --!>
+# => Favorite with links @user.favorites[x] 
 #mean score
+--!>

@@ -49,7 +49,7 @@ class AdminController < ApplicationController
         @anime_response = HTTParty.get(@anime_url)
         @anime_data = @anime_response.body      
         @cur_anime = JSON.parse(@anime_data)
-        if @cur_anime and @cur_anime['genres'].count > 0
+        if @cur_anime and @cur_anime['genres'] and @cur_anime['genres'].count > 0
           @cur_anime['genres'].each do |genre|
             puts "Adding " + genre['name'] + " to " + anime.slug
             @cur_genre = Genre.find_by_name(genre['name'])
@@ -66,7 +66,7 @@ class AdminController < ApplicationController
 
     @admin_message = "Genres imported!"
 
-    render layout: "admin/index"
+    render :index
   end
 
   def clearUserDB

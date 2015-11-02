@@ -15,8 +15,6 @@ class UserController < ApplicationController
     @cur_user = User.find_by_name(params[:username])
     @cur_user_list = @cur_user.library_entries
     @user_anime = @cur_user.animes
-
-    @timeString = totalTimeString(@cur_user.time_spent_on_anime)
     
     @meanScore = @cur_user.mean_rating
 
@@ -97,7 +95,7 @@ class UserController < ApplicationController
       User.find_by_name(params[:username]).destroy
     end
 
-    redirect_to :action => "show", :username=> params[:username]
+    redirect_to :action => "general", :username=> params[:username]
   end
 
   #Generates our new user and saves his properties, library entries
@@ -120,10 +118,11 @@ class UserController < ApplicationController
     new_user.hm_dash_url = "https://hummingbird.me/users/"+ @cur_user['name']
     new_user.avatar = @cur_user['avatar']
     new_user.time_spent_on_anime = @cur_user['life_spent_on_anime']
+    new_user.time_string = totalTimeString(@cur_user['life_spent_on_anime'])
     new_user.cover_image = @cur_user['cover_image']
     new_user.last_date_updated = DateTime.strptime(@cur_user['last_library_update'],'%Y-%m-%dT%H:%M:%S')
     new_user.number_of_entries,new_user.mean_rating,new_user.number_of_episodes = getMeanScore(@cur_user_list)
-    new_user.save
+    new_user.save!
 
     # Generate each list item from JSON
     @cur_user_list.each do |index, value|
@@ -141,7 +140,7 @@ class UserController < ApplicationController
       cur_entry_anime = Anime.where(:hm_id => index['anime']['id']).first
       new_library_entry.anime = cur_entry_anime
 
-      new_library_entry.save
+      new_library_entry.save!
 
       # Plug new library entry into anime and user
       cur_entry_anime.library_entries << new_library_entry

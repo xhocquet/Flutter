@@ -32,7 +32,7 @@ body {
 
 .error {
   border-radius: 4px;
-color: rgb(204, 41, 0);
+  color: rgb(204, 41, 0);
   margin: 0 auto 10px;
   width: 50%;
 }
@@ -41,8 +41,10 @@ color: rgb(204, 41, 0);
   font-size: 40px;
   padding: 10px;
   text-align: center;
+  color: rgb(100, 100, 100);
 }
 
 .username_search_field:focus {
   outline: none;
+  color: rgb(51, 51, 51);
 }

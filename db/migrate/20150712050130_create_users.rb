@@ -9,6 +9,9 @@ class CreateUsers < ActiveRecord::Migration
       t.string :avatar
       t.string :cover_image
       t.string :name
+      t.string :hm_dash_url
+      t.string :hm_library_url
+      t.string :time_string
 
       t.timestamps null: false
     end

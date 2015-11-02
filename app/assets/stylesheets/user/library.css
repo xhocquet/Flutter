@@ -49,7 +49,11 @@
 }
 
 .status {
-  width: 50%;
+  width: 30%;
+}
+
+.episodes_watched {
+  width: 20%;
 }
 
 .rating, .community_rating {
