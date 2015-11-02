@@ -122,7 +122,7 @@ class UserController < ApplicationController
     new_user.cover_image = @cur_user['cover_image']
     new_user.last_date_updated = DateTime.strptime(@cur_user['last_library_update'],'%Y-%m-%dT%H:%M:%S')
     new_user.number_of_entries,new_user.mean_rating,new_user.number_of_episodes = getMeanScore(@cur_user_list)
-    new_user.save!
+    new_user.save! # Save here to allow us to insert records into it after
 
     # Generate each list item from JSON
     @cur_user_list.each do |index, value|
@@ -146,6 +146,10 @@ class UserController < ApplicationController
       cur_entry_anime.library_entries << new_library_entry
       new_user.library_entries << new_library_entry
     end
+
+    # We only want to set this when everything is over, so that users aren't penalized for unfinished queries.
+    new_user.time_last_refreshed = Time.zone.now
+    new_user.save!
   end
 
   def totalTimeString(minutes)
