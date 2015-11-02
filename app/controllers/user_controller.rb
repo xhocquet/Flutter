@@ -89,13 +89,29 @@ class UserController < ApplicationController
 
   def refreshData
     @does_user_exist = User.exists?(:name => params[:username])
-    
-    if @does_user_exist
+    @can_refresh = User.find_by_name(params[:username]).datetime_can_refresh < Time.zone.now
+
+    if @can_refresh and @does_user_exist
       LibraryEntry.destroy_all(name: params[:username])
       User.find_by_name(params[:username]).destroy
+      generate_info(params[:username])
     end
 
-    redirect_to :action => "general", :username=> params[:username]
+    @message = "Cannot refresh more than once every 6 hours" unless @can_refresh
+
+    @cur_user = User.find_by_name(params[:username])
+    @cur_user_list = @cur_user.library_entries
+    @user_anime = @cur_user.animes
+    
+    @meanScore = @cur_user.mean_rating
+
+    @db_show_count = Anime.count
+    @user_show_count = @cur_user_list.count
+
+    @db_episode_count = Anime.all.sum(:episode_count)
+    @user_episode_count = @cur_user.number_of_episodes
+
+    render :general
   end
 
   #Generates our new user and saves his properties, library entries
@@ -148,7 +164,7 @@ class UserController < ApplicationController
     end
 
     # We only want to set this when everything is over, so that users aren't penalized for unfinished queries.
-    new_user.time_last_refreshed = Time.zone.now
+    new_user.datetime_can_refresh = Time.zone.now + 6.hours
     new_user.save!
   end
 

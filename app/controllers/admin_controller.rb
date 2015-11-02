@@ -4,7 +4,7 @@ class AdminController < ApplicationController
 
   def index
     @admin_message = "index"
-    render layout: "admin"
+    render :index
   end
 
   def importAnime
