@@ -9,37 +9,41 @@ class AdminController < ApplicationController
 
   def importAnime
     for i in 1..12000
-      @anime_url = URI.encode("http://hummingbird.me/api/v1/anime/"+i.to_s)
-      @anime_response = HTTParty.get(@anime_url)
-      @anime_data = @anime_response.body      
-      @cur_anime = JSON.parse(@anime_data)
-
-      if(!Anime.exists?(:hm_id => @cur_anime['id']))
-        if(@cur_anime.count > 1)
-          new_anime = Anime.new
-          new_anime.hm_id = @cur_anime['id']
-          new_anime.mal_id = @cur_anime['mal_id']
-          new_anime.status = @cur_anime['status']
-          new_anime.hm_url = @cur_anime['url']
-          new_anime.title = @cur_anime['title']
-          new_anime.slug = @cur_anime['slug']
-          new_anime.episode_count = @cur_anime['episode_count']
-          new_anime.episode_length = @cur_anime['episode_length']
-          new_anime.cover_image_url = @cur_anime['cover_image']
-          new_anime.show_type = @cur_anime['show_type']
-          new_anime.synopsis = @cur_anime['synopsis']
-          new_anime.community_rating = @cur_anime['community_rating']
-          new_anime.age_rating = @cur_anime['age_rating']
-          new_anime.end_air_date = @cur_anime['finished_airing']
-          new_anime.start_air_date = @cur_anime['started_airing']
-          new_anime.save
-        end
+      if(!Anime.exists?(:hm_id => i))
+        createAnimeRecord(i)
       end
     end
 
     @admin_message = "Anime database updated."
 
-    render layout: "admin/index"
+    render :index
+  end
+
+  def createAnimeRecord(id)
+    @anime_url = URI.encode("http://hummingbird.me/api/v1/anime/"+id.to_s)
+    @anime_response = HTTParty.get(@anime_url)
+    @anime_data = @anime_response.body      
+    @cur_anime = JSON.parse(@anime_data)
+
+    if(@cur_anime.count > 1)
+      new_anime = Anime.new
+      new_anime.hm_id = @cur_anime['id']
+      new_anime.mal_id = @cur_anime['mal_id']
+      new_anime.status = @cur_anime['status']
+      new_anime.hm_url = @cur_anime['url']
+      new_anime.title = @cur_anime['title']
+      new_anime.slug = @cur_anime['slug']
+      new_anime.episode_count = @cur_anime['episode_count']
+      new_anime.episode_length = @cur_anime['episode_length']
+      new_anime.cover_image_url = @cur_anime['cover_image']
+      new_anime.show_type = @cur_anime['show_type']
+      new_anime.synopsis = @cur_anime['synopsis']
+      new_anime.community_rating = @cur_anime['community_rating']
+      new_anime.age_rating = @cur_anime['age_rating']
+      new_anime.end_air_date = @cur_anime['finished_airing']
+      new_anime.start_air_date = @cur_anime['started_airing']
+      new_anime.save!
+    end
   end
 
   def importGenres

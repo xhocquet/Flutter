@@ -83,13 +83,15 @@ class UserController < ApplicationController
     @score_year_array = @score_year_hash.map{|year,shows| [year, (shows.sum{|s| s.rating}/shows.count).round(3)]}.sort{|a,b| a<=> b}.to_json
 
     # GRAPH - Mean score by genre
-    #@score_genre_hash = @cur_user_list.where.not(rating: nil).group_by{|le| le.anime.genres.name}
+    @valid_entries = @cur_user_list.where.not(rating: nil)
+    @score_genre_hash = @valid_entries.map{|le| 
+    }
 
   end
 
   def refreshData
     @does_user_exist = User.exists?(:name => params[:username])
-    @can_refresh = User.find_by_name(params[:username]).datetime_can_refresh < Time.zone.now
+    @can_refresh = User.find_by_name(params[:username]).time_can_refresh < Time.zone.now
 
     if @can_refresh and @does_user_exist
       LibraryEntry.destroy_all(name: params[:username])
@@ -164,7 +166,7 @@ class UserController < ApplicationController
     end
 
     # We only want to set this when everything is over, so that users aren't penalized for unfinished queries.
-    new_user.datetime_can_refresh = Time.zone.now + 6.hours
+    new_user.time_can_refresh = Time.zone.now + 6.hours
     new_user.save!
   end
 

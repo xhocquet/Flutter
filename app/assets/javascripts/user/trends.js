@@ -104,7 +104,8 @@ $(function () {
     },
     yAxis: {
       title: 'Num Shows',
-      min: 0
+      min: 0,
+      tickInterval: 1
     },
     title: {
       text: ''
