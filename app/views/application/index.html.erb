@@ -4,6 +4,8 @@
   <% end %>
   <% if params[:err] == "1" %>
     <div class="error">User could not be found.</div>
+  <% elsif params[:err] == "2" %>
+    <div class="error">Please enter your username before going to the information pages.</div>
   <% end %>
   <input class="username_search_field" type="text" id="username_search_field" placeholder="Username" onfocus="this.placeholder = ''" />
 </div>

@@ -29,78 +29,92 @@ class UserController < ApplicationController
 
   def library
     @cur_user = User.find_by_name(params[:username])
-    @cur_user_list = @cur_user.library_entries
-    @user_anime = @cur_user.animes
+    if @cur_user
+      @cur_user_list = @cur_user.library_entries
+      @user_anime = @cur_user.animes
+    else
+      return redirect_to :controller => 'application', :action => 'index', :err => 2
+    end
   end
 
   def ratings
     @cur_user = User.find_by_name(params[:username])
-    @cur_user_list = @cur_user.library_entries
-    @user_anime = @cur_user.animes
+    if @cur_user
+      @cur_user_list = @cur_user.library_entries
+      @user_anime = @cur_user.animes
 
+      # GRAPH - Rating distribution
+      @rating_count_hash = @cur_user_list.where(:status => 'completed').group(:rating).count
+      @rating_count_array = @rating_count_hash.map {|i,v| [i.nil? ? 0  : (i), v]}.sort{|a,b| a<=> b}.to_json
+
+      # GRAPH - Mean score by year line
+      @score_year_hash = @cur_user_list.where("rating IS NOT NULL AND status = 'completed'").group_by{|le| le.anime.start_air_date.year}
+      @score_year_array = @score_year_hash.map{|year,shows| [year, (shows.sum{|s| s.rating}/shows.count).round(3)]}.sort{|a,b| a<=> b}.to_json
+
+      # GRAPH - Mean score by genre
+      sql = "
+        SELECT 
+          genres.name, 
+          library_entries.rating
+        FROM 
+          public.animes_genres, 
+          public.animes, 
+          public.genres, 
+          public.library_entries
+        WHERE 
+          animes_genres.genre_id = genres.id AND
+          animes.id = animes_genres.anime_id AND
+          animes.id = library_entries.anime_id AND
+          library_entries.rating IS NOT NULL AND
+          library_entries.user_id = " + @cur_user.id.to_s
+      @score_genre_hash = ActiveRecord::Base.connection.execute(sql).group_by{|r| r['name']}
+      @score_genre_label_array = @score_genre_hash.map{|name,records| [name]}.to_json
+      @score_genre_array = @score_genre_hash.map{|name,records| [(records.sum{|r| r['rating'].to_f}/records.count).round(2)]}.sort{|a,b| a<=> b}.to_json
+    else
+      return redirect_to :controller => 'application', :action => 'index', :err => 2
+    end
   end
 
   def history
     @cur_user = User.find_by_name(params[:username])
-    @cur_user_list = @cur_user.library_entries
-    @user_anime = @cur_user.animes
+    if @cur_user
+      @cur_user_list = @cur_user.library_entries
+      @user_anime = @cur_user.animes
 
+      # GRAPH - Show count vs day completed heatmap
+      @month_count_hash = @cur_user_list.where(:status => 'completed').group("DATE_TRUNC('month', last_date_watched)").count
+      @month_count_array = @month_count_hash.map {|i,v| [i.month,i.year, v]}.to_json
+    else
+      return redirect_to :controller => 'application', :action => 'index', :err => 2
+    end
   end
 
   def trends
     @cur_user = User.find_by_name(params[:username])
-    @cur_user_list = @cur_user.library_entries
-    @user_anime = @cur_user.animes
+    if @cur_user
+      @cur_user_list = @cur_user.library_entries
+      @user_anime = @cur_user.animes
 
-    @chart_colors = ['#F57C00','#4CAF50','#303F9F','#FF5252','#FFC107','#7C4DFF','#03A9F4','#E040FB','#FF5722','#8BC34A']
+      @chart_colors = ['#F57C00','#4CAF50','#303F9F','#FF5252','#FFC107','#7C4DFF','#03A9F4','#E040FB','#FF5722','#8BC34A']
 
-    # GRAPH - Show status distribution
-    @completed_show_count = @cur_user_list.where(:status => 'completed').count
-    @on_hold_show_count = @cur_user_list.where(:status => 'on-hold').count
-    @dropped_show_count = @cur_user_list.where(:status => 'dropped').count
-    @watching_show_count = @cur_user_list.where(:status => 'currently-watching').count
-    @plan_to_show_count = @cur_user_list.where(:status => 'plan-to-watch').count
-    @show_status_array = [@watching_show_count, @plan_to_show_count, @completed_show_count, @on_hold_show_count, @dropped_show_count].to_json
+      # GRAPH - Show status distribution
+      @completed_show_count = @cur_user_list.where(:status => 'completed').count
+      @on_hold_show_count = @cur_user_list.where(:status => 'on-hold').count
+      @dropped_show_count = @cur_user_list.where(:status => 'dropped').count
+      @watching_show_count = @cur_user_list.where(:status => 'currently-watching').count
+      @plan_to_show_count = @cur_user_list.where(:status => 'plan-to-watch').count
+      @show_status_array = [@watching_show_count, @plan_to_show_count, @completed_show_count, @on_hold_show_count, @dropped_show_count].to_json
 
-    # GRAPH - Rating distribution
-    @rating_count_hash = @cur_user_list.where(:status => 'completed').group(:rating).count
-    @rating_count_array = @rating_count_hash.map {|i,v| [i.nil? ? 0  : (i), v]}.sort{|a,b| a<=> b}.to_json
+      # GRAPH - Shows watched by air date line
+      @year_count_hash = @user_anime.group("DATE_TRUNC('year', start_air_date)").count.delete_if{|i,v| i.nil?}
+      @year_count_array = @year_count_hash.map {|i,v| [i.year, v]}.sort{|a,b| a<=> b}.to_json
 
-    # GRAPH - Show count vs day completed heatmap
-    @month_count_hash = @cur_user_list.where(:status => 'completed').group("DATE_TRUNC('month', last_date_watched)").count
-    @month_count_array = @month_count_hash.map {|i,v| [i.month,i.year, v]}.to_json
-
-    # GRAPH - Shows watched by air date line
-    @year_count_hash = @user_anime.group("DATE_TRUNC('year', start_air_date)").count.delete_if{|i,v| i.nil?}
-    @year_count_array = @year_count_hash.map {|i,v| [i.year, v]}.sort{|a,b| a<=> b}.to_json
-
-    # GRAPH - Shows pie chart of different types (OVA, TV, etc)
-    @anime_type_hash = @user_anime.group(:show_type).count
-    @anime_type_array = @anime_type_hash.map {|i, v| {'name' => i, 'y' => v}}.to_json
-
-    # GRAPH - Mean score by year line
-    @score_year_hash = @cur_user_list.where("rating IS NOT NULL AND status = 'completed'").group_by{|le| le.anime.start_air_date.year}
-    @score_year_array = @score_year_hash.map{|year,shows| [year, (shows.sum{|s| s.rating}/shows.count).round(3)]}.sort{|a,b| a<=> b}.to_json
-
-    # GRAPH - Mean score by genre
-    sql = "
-      SELECT 
-        genres.name, 
-        library_entries.rating
-      FROM 
-        public.animes_genres, 
-        public.animes, 
-        public.genres, 
-        public.library_entries
-      WHERE 
-        animes_genres.genre_id = genres.id AND
-        animes.id = animes_genres.anime_id AND
-        animes.id = library_entries.anime_id AND
-        library_entries.rating IS NOT NULL AND
-        library_entries.user_id = " + @cur_user.id.to_s
-    @score_genre_hash = ActiveRecord::Base.connection.execute(sql).group_by{|r| r['name']}
-    @score_genre_label_array = @score_genre_hash.map{|name,records| [name]}.to_json
-    @score_genre_array = @score_genre_hash.map{|name,records| [(records.sum{|r| r['rating'].to_f}/records.count).round(2)]}.sort{|a,b| a<=> b}.to_json
+      # GRAPH - Shows pie chart of different types (OVA, TV, etc)
+      @anime_type_hash = @user_anime.group(:show_type).count
+      @anime_type_array = @anime_type_hash.map {|i, v| {'name' => i, 'y' => v}}.to_json
+    else
+      return redirect_to :controller => 'application', :action => 'index', :err => 2
+    end
   end
 
   def refreshData

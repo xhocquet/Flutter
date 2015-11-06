@@ -1,9 +1,32 @@
 <%= stylesheet_link_tag 'user/ratings' %>
 
+<div class="chart_title">
+  <h2>Rating Distribution</h2>
+</div>
+<div id="rating_distribution_line"></div>
+<div class="chart_title">
+  <h2>Mean Rating by Year</h2>
+</div>
+<div id="year_rating_line"></div>
+<div class="chart_title">
+  <h2>Mean Rating by Genre</h2>
+</div>
+<div id="genre_rating_barchart"></div>
+
+<script type="text/javascript">
+  var rating_count_array = <%= raw @rating_count_array %>
+  var score_year_array = <%= raw @score_year_array %>
+  var score_genre_label_array = <%= raw @score_genre_label_array %>
+  var score_genre_array = <%= raw @score_genre_array %>
+</script>
+
+<%= javascript_include_tag 'highcharts/highcharts' %>
+<%= javascript_include_tag 'highcharts/highcharts-more' %>
+<%= javascript_include_tag 'highcharts/heatmap' %>
+<%= javascript_include_tag 'highcharts/exporting' %>
 <%= javascript_include_tag 'user/ratings' %>
-    # Ratings
-    # => Rating Distribution - Count by rating, map counts to rating
-    # => Ratings vs Time Spent - Sum time by rating, map summed time to rating
-    # => Rating vs Episode Count - Bar graph # title within episode count ranges. Then 
-    # =>    line graph over it for mean rating per range
+
+Ratings vs Time Spent - Sum time by rating, map summed time to rating
+Rating vs Episode Count - Bar graph # title within episode count ranges. Then 
+   line graph over it for mean rating per range
    

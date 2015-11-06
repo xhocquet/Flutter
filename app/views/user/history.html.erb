@@ -1,5 +1,17 @@
 <%= stylesheet_link_tag 'user/history' %>
 
+<div class="chart_title">
+  <h2>Watch History</h2>
+</div>        
+<div id="count_to_date_heatmap"></div>
+
+<script type="text/javascript">
+  var month_count_array = <%= raw @month_count_array %>
+</script>
+<%= javascript_include_tag 'highcharts/highcharts' %>
+<%= javascript_include_tag 'highcharts/highcharts-more' %>
+<%= javascript_include_tag 'highcharts/heatmap' %>
+<%= javascript_include_tag 'highcharts/exporting' %>
 <%= javascript_include_tag 'user/history' %>
  # History
     # => Recent - Plot last month or so with # episodes or time per day. see if you can get weekdays in. 
