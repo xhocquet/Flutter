@@ -173,4 +173,33 @@ $(function () {
       }]
   }));
 
+  $('#genre_rating_barchart').highcharts(Highcharts.merge(hideCrapOptions, {
+      xAxis: {
+          title: 'Genre',
+          categories: score_genre_label_array
+      },
+      yAxis: {
+        title: 'Mean Rating',
+        min: 0,
+        max: 5
+      },
+      title: {
+        text: ''
+      },
+      series: [{
+          data: score_genre_array,
+          color: '#FF9800',
+          dataLabels: {
+              enabled: true,
+              color: '#000000'
+          }
+      }],
+      tooltip: {
+        enabled: true,
+        formatter: function() {
+          return this.x + ': ' + this.y;
+        }
+      }
+  }));
+
 });

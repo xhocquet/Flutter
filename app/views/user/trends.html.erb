@@ -24,6 +24,10 @@
       <h2>Mean Rating by Year</h2>
     </div>
     <div id="year_rating_line"></div>
+    <div class="chart_title">
+      <h2>Mean Rating by Genre</h2>
+    </div>
+    <div id="genre_rating_barchart"></div>
 
 
     <script type="text/javascript">
@@ -33,6 +37,8 @@
       var year_count_array =  <%= raw @year_count_array %>
       var anime_type_array = <%= raw @anime_type_array %>
       var score_year_array = <%= raw @score_year_array %>
+      var score_genre_label_array = <%= raw @score_genre_label_array %>
+      var score_genre_array = <%= raw @score_genre_array %>
     </script>
     <%= javascript_include_tag 'highcharts/highcharts' %>
     <%= javascript_include_tag 'highcharts/highcharts-more' %>
@@ -40,6 +46,5 @@
     <%= javascript_include_tag 'highcharts/exporting' %>
     <%= javascript_include_tag 'user/trends' %>
 
-    # => Favorite genres @userList[0].anime.genres[]
     # => Favorite age ratings @userlist[0].anime.age_rating
     # => Favorite lengths?

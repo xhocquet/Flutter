@@ -83,10 +83,24 @@ class UserController < ApplicationController
     @score_year_array = @score_year_hash.map{|year,shows| [year, (shows.sum{|s| s.rating}/shows.count).round(3)]}.sort{|a,b| a<=> b}.to_json
 
     # GRAPH - Mean score by genre
-    @valid_entries = @cur_user_list.where.not(rating: nil)
-    @score_genre_hash = @valid_entries.map{|le| 
-    }
-
+    sql = "
+      SELECT 
+        genres.name, 
+        library_entries.rating
+      FROM 
+        public.animes_genres, 
+        public.animes, 
+        public.genres, 
+        public.library_entries
+      WHERE 
+        animes_genres.genre_id = genres.id AND
+        animes.id = animes_genres.anime_id AND
+        animes.id = library_entries.anime_id AND
+        library_entries.rating IS NOT NULL AND
+        library_entries.user_id = " + @cur_user.id.to_s
+    @score_genre_hash = ActiveRecord::Base.connection.execute(sql).group_by{|r| r['name']}
+    @score_genre_label_array = @score_genre_hash.map{|name,records| [name]}.to_json
+    @score_genre_array = @score_genre_hash.map{|name,records| [(records.sum{|r| r['rating'].to_f}/records.count).round(2)]}.sort{|a,b| a<=> b}.to_json
   end
 
   def refreshData
