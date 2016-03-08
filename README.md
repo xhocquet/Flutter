@@ -1,5 +1,10 @@
 # Flutter
 
+![Main Screen](http://i.imgur.com/AcRS95D.png "Main Screen")
+![User Profile](http://i.imgur.com/Fq1OwLA.png "User Profile")
+![User Library](http://i.imgur.com/r4l3Eeo.png "User Library")
+![User Watch History](http://i.imgur.com/CHAqPsk.png "User Watch History")
+
 ###Setup
 As of 8/8/2015 this runs on the latest rails with ruby 2.2.2. Latest postgres, with a localhost server running on `localhost:5432`. Change the `database.yml` file to whateverr you have your db set up as, mine is just `xhocquet` for user and pass. 
 
